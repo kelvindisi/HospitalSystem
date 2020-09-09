@@ -9,6 +9,8 @@ use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 
+use App\Role;
+
 class RegisterController extends Controller
 {
     /*
@@ -38,9 +40,26 @@ class RegisterController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('guest');
+        if (!$this->checkAdmin())
+            $this->middleware('guest');
+        else
+            $this->middleware('auth');
     }
 
+    private function checkAdmin()
+    {
+        $role = Role::where('name', 'admin')->first();
+        
+        if ($role)
+        {
+            if ($role->users()->count() > 0)
+                return true;
+            else
+                return false;
+        }
+
+        return false;
+    }
     /**
      * Get a validator for an incoming registration request.
      *
