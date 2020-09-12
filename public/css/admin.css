@@ -1,0 +1,11 @@
+.bg-admin {
+    background-color: rgb(98, 0, 255);
+}
+
+.admin-nav-link {
+    color: white;
+}
+.admin-nav-link:hover {
+    color: white;
+    text-decoration: none;
+}
