@@ -10963,3 +10963,19 @@ a.text-dark:focus {
   border-bottom: 0.25rem solid #5a5c69 !important;
 }
 
+.text-white {
+  color: white;
+}
+
+.center-items {
+  margin: 0 auto;
+}
+
+.bold {
+  font-weight: bold;
+}
+
+.bolder {
+  font-weight: bolder;
+}
+

@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\DB;
 use App\User;
 use App\Role;
 use App\RoleUser;
+use App\PaymentMode;
 
 class AdminController extends Controller
 {
@@ -167,7 +168,54 @@ class AdminController extends Controller
         $user->update($data);
 
         return redirect(route('details_staff', ['user' => $user->id]))->with('success', 'User account updated successfully.');
+    }
+    /**
+     * List Payment Mode
+     */
+    public function paymentModes()
+    {
+        $modes = PaymentMode::all();
+        return view('admin.payment_modes')->with(['modes' => $modes]);
+    }
+    public function addPaymentMode()
+    {
+        return view('admin.add_payment_mode');
+    }
+    public function saveMode(Request $request)
+    {
+        $data = $request->validate([
+            'name' => 'required|string|unique:payment_modes',
+            'consultation_fee' => 'required|numeric'
+        ]);
         
-        
+        PaymentMode::create($data);
+        return redirect(route('payment_modes'))
+            ->with('success', 'Successfully saved');
+    }
+    public function editMode(Request $request, PaymentMode $mode)
+    {
+        return view('admin.edit_mode')->with(['mode' =>$mode]);
+    }
+    
+    public function updateMode(Request $request, PaymentMode $mode)
+    {
+        $data = $request->validate([
+            'name' => 'required|string',
+            'consultation_fee' => 'required|numeric'
+        ]);
+
+        $searchedMode = PaymentMode::where(['name' => $data['name']])->first();
+        if ($searchedMode)
+        {
+            if ($searchedMode->id != $mode->id)
+            {
+                return redirect(route('payment_mode_edit', ['mode' => $mode->id]))
+                    ->with('error', "Payment Mode called {$data['name']} already exists");
+            }
+        }
+        // Passed validation and not in database -- UPDATE
+        $mode->update($data);
+        return redirect(route('payment_modes'))
+            ->with('success', 'Payment mode details updated successfully.');
     }
 }

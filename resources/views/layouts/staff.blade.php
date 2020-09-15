@@ -36,6 +36,8 @@
                 </button>
 
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    @guest()
+                    <!-- Admin List -->
                     <ul class="navbar-nav">
                         <li class="nav-item">
                             <a href="{{ route('create_staff') }}" class="nav-link">Add Staff</a>
@@ -43,8 +45,43 @@
                         <li class="nav-item">
                             <a href="{{ route('staff_list') }}" class="nav-link">Manage Staff</a>
                         </li>
+                        <li class="nav-item">
+                            <a href="{{ route('payment_modes') }}" class="nav-link">Payment Modes</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ route('add_payment_mode') }}" class="nav-link">Add Payment Mode</a>
+                        </li>
                     </ul>
+                    <!-- End of Admin List -->
+                    @endguest
 
+                    <!-- Receptionist -->
+                    <ul class="navbar-nav">
+                        <li class="nav-item">
+                            <a href="{{ route('register_patient') }}" class="nav-link">Add Patients</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ route('patients') }}" class="nav-link">Patient List</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ route('pending_consultations') }}" class="nav-link">Pending Consultations</a>
+                        </li>
+                    </ul>
+                    <!-- End of Receptionist -->
+                    
+                    <!-- Accountant -->
+                    <ul class="navbar-nav">
+                        <li class="nav-item">
+                            <a href="{{ route('register_patient') }}" class="nav-link">Pending Invoices</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ route('pending_consultations') }}" class="nav-link">Paid</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ route('patients') }}" class="nav-link">All Invoices</a>
+                        </li>
+                    </ul>
+                    <!-- End of Accountant -->
                     <!-- Left Side Of Navbar -->
                     <ul class="navbar-nav mr-auto">
                     </ul>
