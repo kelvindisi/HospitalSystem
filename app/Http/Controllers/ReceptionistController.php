@@ -176,8 +176,20 @@ class ReceptionistController extends Controller
 
         return view('reception.pending_consultation')->with($context);
     }
-    public function removeConsultation(Request $request, $consultation)
+    public function removeConsultation(Request $request, Consultation $consultation)
     {
         // To remove only the unpaid consultations
+        if ($consultation->consultation_invoice->paid == 'pending')
+        {
+            $patient_name = $consultation->patient->name;
+            $consultation->delete();
+            $message['message'] = "Removed {$patient_name} from patient consultation list.";
+            $message['type'] = 'success';
+        } else {
+            $message['type'] = 'error';
+            $message['message'] = "Failed, the patient has paid consultation fee or invoice has been processed already";
+        }
+
+        return redirect(route('pending_consultations'))->with($message['type'], $message['message']);
     }
 }

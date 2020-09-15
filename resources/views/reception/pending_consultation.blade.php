@@ -21,9 +21,9 @@
                         @foreach($consultations as $consultation)
                         <tr>
                             <td>{{ $consultation->patient->name }}</td>
-                            <td>{{ $consultation->patient->gender }}</td>
+                            <td>{{ ucfirst(trans($consultation->patient->gender)) }}</td>
                             <td>{{ $consultation->patient->phone }}</td>
-                            <td>{{ $consultation->status }}</td>
+                            <td>{{ ucfirst(trans($consultation->consultation_invoice->paid)) }}</td>
                             <td>{{ $consultation->created_at }}</td>
                             <td>
                                 <a href="{{ route('delete_consultation', ['consultation' => $consultation->id]) }}" class="btn btn-outline-danger btn-sm">
