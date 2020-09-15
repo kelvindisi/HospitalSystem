@@ -41,7 +41,11 @@ Route::group(['middleware' => 'auth'], function () {
     });
     Route::group(['prefix' => '/finance'], function () {
         Route::get('', 'FinanceController@index')->name('accountant_dashboard');
-        Route::get('/invoices', 'FinanceController@allInvoices')->name('invoices');
+        Route::group(['prefix' => 'invoice'], function () {
+            Route::get('/consultations/', 'FinanceController@ConsultationInvoices')->name('consultationInvoices');
+            Route::get('/consultation/{invoice}/details', 'FinanceController@ConsultationInDetails')->name('consultationInDetails');
+            Route::put('/consultation/{invoice}', 'FinanceController@ConInStatusUpdate')->name('conInUpdate');
+        });
     });
 });
 

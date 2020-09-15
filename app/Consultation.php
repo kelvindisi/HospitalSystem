@@ -3,7 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
-use App\Invoice;
+use App\ConsultationInvoice;
 
 class Consultation extends Model
 {
@@ -25,20 +25,24 @@ class Consultation extends Model
 
     private static function createInvoice($consultation)
     {
-        $mode = PaymentMode::find($consultation->paymentmode_id)->first();
+        $mode = PaymentMode::find($consultation->payment_mode_id);
         if ($mode)
         {
             $data = [
                 'consultation_id' => $consultation->id,
-                'amount' => $mode->consultation_fee,
+                'amount' => $mode->consultation_fee
             ];
-            if (!Invoice::create($data))
+            if (!ConsultationInvoice::create($data))
                 $consultation->delete();
 
         } else {
             $consultation->delete();
         }
-        
+    }
 
+    // Relationship
+    public function consultation_invoice()
+    {
+        return $this->hasOne('App\ConsultationInvoice');
     }
 }

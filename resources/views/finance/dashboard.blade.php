@@ -29,40 +29,42 @@
             </div>
             <hr>
             <div class="container">
-                <div class="row">
-                    <div class="col-xl-4 col-md-6 mb-2">
-                        <div class="card bg-success shadow">
-                            <div class="card-body">
-                                <h1 class="text-gray card-title text-white bolder">Pending Invoce</h1>
-                                <hr>
-                                <div class="col-12 text-center">
+                <div class="card-deck menu">
+
+                    <div class="card bg-success shadow">
+                        <div class="card-body">
+                            <h1 class="text-gray text-center card-title text-white bolder">Consultation Invoice</h1>
+                            <hr>
+                            <div class="col-12 text-center">
+                                <a href="{{ route('consultationInvoices') }}">
                                     <i class="fas fa-file-invoice fa-3x text-white"></i>
-                                </div>
+                                </a>
                             </div>
                         </div>
-                    </div>      
-                    <div class="col-xl-4 col-md-6 mb-2">
-                        <div class="card bg-primary shadow">
-                            <div class="card-body">
-                                <h1 class="text-gray text-white bolder">Paid</h1>
-                                <hr>
-                                <div class="col-12 text-center">
-                                    <i class="fas fa-receipt fa-3x text-white"></i>
-                                </div>
+                    </div>
+                    
+                    <div class="card">
+                        <div class="card-body bg-primary shadow">
+                            <h1 class="text-gray text-center card-title text-white bolder">Test Invoice</h1>
+                            <hr>
+                            <div class="col-12 text-center">
+                                <a href="">
+                                    <i class="fas fa-file-invoice fa-3x text-white"></i>
+                                </a>
                             </div>
                         </div>
-                    </div>      
-                    <div class="col-xl-4 col-md-6 mb-2">
-                        <div class="card bg-danger shadow">
-                            <div class="card-body">
-                                <h1 class="text-gray text-white bolder">All Invoices</h1>
-                                <hr>
-                                <div class="col-12 text-center">
-                                    <i class="fas fa-file-alt fa-3x text-white"></i>
-                                </div>
+                    </div>
+                    <div class="card bg-danger shadow">
+                        <div class="card-body">
+                            <h1 class="text-gray text-center card-title text-white bolder">Prescription Invoice</h1>
+                            <hr>
+                            <div class="col-12 text-center">
+                                <a href="">
+                                    <i class="fas fa-file-invoice fa-3x text-white"></i>
+                                </a>
                             </div>
                         </div>
-                    </div>      
+                    </div>
                 </div>
             </div>
         </div>

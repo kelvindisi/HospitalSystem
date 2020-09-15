@@ -4,28 +4,25 @@
 <div class="container">
     <div class="card">
         <div class="card-body">
-            @extends('layouts.messages')
-
-            <div class="table-responsive">
+            <div class="table responsive">
                 <table class="table" id="dataTable">
                     <thead>
                         <tr>
                             <th>Patient Name</th>
-                            <td>Phone</td>
-                            <th>ID Number</th>
                             <th>Amount</th>
+                            <th>Status</th>
                             <th>Manage</th>
                         </tr>
                     </thead>
                     <tbody>
                         @foreach($invoices as $invoice)
                         <tr>
-                            <td>{{ $invoice->name }}</td>
-                            <td>{{ $invoice->Phone }}</td>
-                            <td>{{ $invoice->id_number }}</td>
+                            <td>{{ $invoice->consultation->patient->name }}</td>
+                            <td>{{ $invoice->amount }}</td>
+                            <td>{{ $invoice->paid }}</td>
                             <td>
-                                <a href="" class="btn btn-outline-primary">
-                                    <i class="fas fa-edit"></i>
+                                <a href="{{ route('consultationInDetails', ['invoice' => $invoice->id]) }}" class="btn btn-sm btn-primary">
+                                    <i class="fas fa-edit">Update</i>
                                 </a>
                             </td>
                         </tr>

@@ -69,19 +69,6 @@
                     </ul>
                     <!-- End of Receptionist -->
                     
-                    <!-- Accountant -->
-                    <ul class="navbar-nav">
-                        <li class="nav-item">
-                            <a href="{{ route('register_patient') }}" class="nav-link">Pending Invoices</a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="{{ route('pending_consultations') }}" class="nav-link">Paid</a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="{{ route('patients') }}" class="nav-link">All Invoices</a>
-                        </li>
-                    </ul>
-                    <!-- End of Accountant -->
                     <!-- Left Side Of Navbar -->
                     <ul class="navbar-nav mr-auto">
                     </ul>

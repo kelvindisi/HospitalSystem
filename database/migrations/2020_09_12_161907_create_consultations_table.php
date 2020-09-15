@@ -16,13 +16,13 @@ class CreateConsultationsTable extends Migration
         Schema::create('consultations', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('patient_id');
-            $table->unsignedBigInteger('paymentmode_id');
+            $table->unsignedBigInteger('payment_mode_id');
             $table->enum('status',['pending', 'seen'])->default('pending');
             $table->boolean('paid')->default(false);
 
             // Foreign Keys
             $table->foreign('patient_id')->references('id')->on('patients')->onDelete('CASCADE');
-            $table->foreign('paymentmode_id')->references('id')->on('payment_modes')->onDelete('CASCADE');
+            $table->foreign('payment_mode_id')->references('id')->on('payment_modes')->onDelete('CASCADE');
             
             $table->timestamps();
         });

@@ -7,6 +7,7 @@ use App\Patient;
 use App\Consultation;
 use App\PaymentMode;
 use Carbon\Carbon;
+use Faker\Provider\ar_SA\Payment;
 
 class ReceptionistController extends Controller
 {
@@ -141,7 +142,6 @@ class ReceptionistController extends Controller
         $data = $request->validate([
             'payment_mode' => 'required|numeric'
         ]);
-
         if (!PaymentMode::find($data['payment_mode']))
         {
             return redirect(route('patient_details', ['patient' => $patient->id]))
@@ -160,7 +160,7 @@ class ReceptionistController extends Controller
             }
         }
         
-        $dt['paymentmode_id'] = $data['payment_mode'];
+        $dt['payment_mode_id'] = $data['payment_mode'];
         $dt['patient_id'] = $patient->id;
 
         Consultation::create($dt);
