@@ -17,7 +17,7 @@ class CreateRequestedTestsTable extends Migration
             $table->id();
             $table->unsignedBigInteger('consultation_id')->index();
             $table->unsignedBigInteger('test_id')->index();
-            $table->enum('doable', ['yes', 'no', 'pending']);
+            $table->enum('doable', ['yes', 'no', 'pending'])->default('pending');
             $table->boolean('paid')->default(false);
             $table->boolean('complete')->default(false);
 

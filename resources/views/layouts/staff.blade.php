@@ -45,14 +45,7 @@
                         <li class="nav-item">
                             <a href="{{ route('staff_list') }}" class="nav-link">Manage Staff</a>
                         </li>
-                        <li class="nav-item">
-                            <a href="{{ route('payment_modes') }}" class="nav-link">Payment Modes</a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="{{ route('add_payment_mode') }}" class="nav-link">Add Payment Mode</a>
-                        </li>
                     </ul>
-                    @endguest
                     <ul class="navbar-nav">
                         <li class="nav-item dropdown">
                             <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
@@ -64,6 +57,10 @@
                             </div>
                         </li>
                     </ul>
+                    @endguest
+                    <!-- End of Admin List -->
+
+                    @guest() <!-- Finance -->
                     <ul class="navbar-nav">
                         <li class="nav-item dropdown">
                             <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
@@ -86,7 +83,9 @@
                             </div>
                         </li>
                     </ul>
-                    <!-- End of Admin List -->
+                    <!-- End of Finance List -->
+                    @endguest
+
 
                     <!-- Receptionist -->
                     <ul class="navbar-nav">
@@ -102,6 +101,20 @@
                     </ul>
                     <!-- End of Receptionist -->
                     
+                    <!-- Doctor -->
+                    <ul class="navbar-nav">
+                        <li class="nav-item">
+                            <a href="{{ route('doctor.index') }}" class="nav-link">Dashboard</a>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a href="#" data-toggle="dropdown" class="dropdown-toggle nav-link">Consultations</a>
+                            <div class="dropdown-menu">
+                                <a href="{{ route('doctor.pending') }}" class="dropdown-item">Pending</a>
+                                <a href="{{ route('doctor.pending_results') }}" class="dropdown-item">With Lab Test(s)</a>
+                            </div>
+                        </li>
+                    </ul>
+                    <!-- End Doctor -->
                     <!-- Left Side Of Navbar -->
                     <ul class="navbar-nav mr-auto">
                     </ul>

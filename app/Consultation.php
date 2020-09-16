@@ -45,4 +45,8 @@ class Consultation extends Model
     {
         return $this->hasOne('App\ConsultationInvoice');
     }
+    public function requested_tests()
+    {
+        return $this->hasMany('App\RequestedTest');
+    }
 }

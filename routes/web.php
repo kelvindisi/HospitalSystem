@@ -52,6 +52,17 @@ Route::group(['middleware' => 'auth'], function () {
             Route::resource('/tests', 'Inventory\TestController');
         });
     });
+    Route::group(['prefix' => 'doctor'], function () {
+        Route::get('/', 'DoctorController@index')->name('doctor.index');
+        Route::get('/consultations/', 'DoctorController@pendingList')->name('doctor.pending');
+        Route::get('/consultations/lab', 'DoctorController@pendingLabList')->name('doctor.pending_results');
+        Route::post('/consultation/{consultation}/diagnosis', 'DoctorController@updateDiagnosis')->name('doctor.diagnosisUpdate');
+        Route::get('/consultation/{consultation}/details', 'DoctorController@pendingDetails')->name('doctor.pending_open');
+        Route::get('/consultation/{consultation}/complete', 'DoctorController@completeTreatement')->name('doctor.complete');
+        Route::get('/lab/{consultation}/request/', 'DoctorController@testRequest')->name('doctor.testRequest');
+        Route::get('/testadd/{consultation}/{test_id}/', 'DoctorController@testAdd')->name('doctor.addTest');
+        Route::get('/testremove/{consultation}/{test_id}/', 'DoctorController@testRemove')->name('doctor.removeTest');
+    });
 });
 
 Auth::routes();
