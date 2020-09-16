@@ -84,10 +84,13 @@ class TestController extends Controller
         ]);
 
         $searched = Test::where(['name' => $data['name']])->first();
-        if ($searched->id != $test->id)
+        if ($searched)
         {
-            return redirect(route('tests.edit', ['test'=> $test]))
-                ->with('error', 'Test with that name already exist');
+            if ($searched->id != $test->id)
+            {
+                return redirect(route('tests.edit', ['test'=> $test]))
+                    ->with('error', 'Test with that name already exist');
+            }
         }
         $test->update($data);
 

@@ -17,8 +17,9 @@ class CreateConsultationsTable extends Migration
             $table->id();
             $table->unsignedBigInteger('patient_id');
             $table->unsignedBigInteger('payment_mode_id');
-            $table->enum('status',['pending', 'seen'])->default('pending');
-            $table->boolean('paid')->default(false);
+            $table->enum('status',['pending', 'test', 'seen'])->default('pending');
+            $table->boolean('test_ready')->default(true);
+            $table->text('diagnosis')->nullable(true);
 
             // Foreign Keys
             $table->foreign('patient_id')->references('id')->on('patients')->onDelete('CASCADE');

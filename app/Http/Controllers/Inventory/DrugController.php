@@ -85,11 +85,13 @@ class DrugController extends Controller
         ]);
         
         $searchDrug = Drug::where(['name' => $data['name']])->first();
-
-        if ($searchDrug->id != $drug->id)
+        if ($searchDrug)
         {
-            return redirect(route('drugs.show', ['drug' => $drug->id]))
-                ->with('error', 'Drug with that name already exists.');
+            if ($searchDrug->id != $drug->id)
+            {
+                return redirect(route('drugs.show', ['drug' => $drug->id]))
+                    ->with('error', 'Drug with that name already exists.');
+            }
         }
         $drug->update($data);
         return redirect(route('drugs.index'))->with('success', 'Updated drug details successfully.');

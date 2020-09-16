@@ -4,7 +4,7 @@
 <div class="container">
     <div class="card">
         <div class="card-body">
-            @inlcude('layouts.messages')
+            @include('layouts.messages')
             <form method="POST" action="{{ route('drugs.update',['drug'=>$drug->id]) }}">
                 @csrf
                 <input type="hidden" name="_method" value="PUT">

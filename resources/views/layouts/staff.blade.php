@@ -56,6 +56,17 @@
                     <ul class="navbar-nav">
                         <li class="nav-item dropdown">
                             <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                                Payment Options
+                            </a>
+                            <div class="dropdown-menu">
+                                <a href="{{ route('payment_modes') }}" class="dropdown-item">List</a>
+                                <a href="{{ route('add_payment_mode') }}" class="dropdown-item">Add</a>
+                            </div>
+                        </li>
+                    </ul>
+                    <ul class="navbar-nav">
+                        <li class="nav-item dropdown">
+                            <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                                 Drugs Inventory
                             </a>
                             <div class="dropdown-menu">
