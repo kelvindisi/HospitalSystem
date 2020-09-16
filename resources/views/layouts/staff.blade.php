@@ -52,8 +52,30 @@
                             <a href="{{ route('add_payment_mode') }}" class="nav-link">Add Payment Mode</a>
                         </li>
                     </ul>
-                    <!-- End of Admin List -->
                     @endguest
+                    <ul class="navbar-nav">
+                        <li class="nav-item dropdown">
+                            <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                                Drugs Inventory
+                            </a>
+                            <div class="dropdown-menu">
+                                <a href="{{ route('drugs.index') }}" class="dropdown-item">List</a>
+                                <a href="{{ route('drugs.create') }}" class="dropdown-item">Add</a>
+                            </div>
+                        </li>
+                    </ul>
+                    <ul class="navbar-nav">
+                        <li class="nav-item dropdown">
+                            <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                                Lab Tests
+                            </a>
+                            <div class="dropdown-menu">
+                                <a href="{{ route('tests.index') }}" class="dropdown-item">List</a>
+                                <a href="{{ route('tests.create') }}" class="dropdown-item">Add</a>
+                            </div>
+                        </li>
+                    </ul>
+                    <!-- End of Admin List -->
 
                     <!-- Receptionist -->
                     <ul class="navbar-nav">

@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Auth;
 
 Route::get('/', function () {
     return redirect('/login');
@@ -45,6 +46,10 @@ Route::group(['middleware' => 'auth'], function () {
             Route::get('/consultations/', 'FinanceController@ConsultationInvoices')->name('consultationInvoices');
             Route::get('/consultation/{invoice}/details', 'FinanceController@ConsultationInDetails')->name('consultationInDetails');
             Route::put('/consultation/{invoice}', 'FinanceController@ConInStatusUpdate')->name('conInUpdate');
+        });
+        Route::group(['prefix' => 'inventory'], function () {
+            Route::resource('/drugs', 'Inventory\DrugController');
+            Route::resource('/tests', 'Inventory\TestController');
         });
     });
 });
