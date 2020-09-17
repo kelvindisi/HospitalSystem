@@ -18,6 +18,7 @@ class CreatePrescriptionsTable extends Migration
             $table->unsignedBigInteger('consultation_id')->index();
             $table->unsignedBigInteger('drug_id')->index();
             $table->enum('availability', ['yes', 'no', 'pending'])->default('pending');
+            $table->integer('quantity')->default(1);
             $table->enum('paid', ['yes', 'no', 'pending'])->default('pending');
             $table->boolean('issued')->default(false);
 

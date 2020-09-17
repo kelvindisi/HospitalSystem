@@ -31,7 +31,9 @@
                                 <tr>
                                     <td> {{ $drug->name }} </td>
                                     <td>
-                                        <a href="{{ route('doctor.addTest', ['consultation'=>$consultation->id, 'test_id'=>$drug->id]) }}" class="btn btn-outline-primary btn-sm">
+                                        <a 
+                                            href="{{ route('doctor.issue', ['consultation'=>$consultation->id, 'drug_id'=>$drug->id]) }}"
+                                             class="btn btn-outline-primary btn-sm">
                                             <i class="fas fa-plus"></i>
                                         </a>
                                     </td>
@@ -42,24 +44,26 @@
                     </div>
                 </div>
                 <div class="col-sm-12 col-md-6">
-                    <p class="bold">Requested Test</p>
+                    <p class="bold">Prescribed Drug</p>
                     <div class="table-responsive">
                         <table class="table" id="dataTable">
                             <thead>
                                 <tr>
                                     <th>No.</th>
                                     <th>Name</th>
+                                    <th>Quantity</th>
                                     <th>Remove</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <?php $counter = 1; ?>
-                                @foreach($consultation->requested_tests as $drug)
+                                @foreach($consultation->prescriptions as $prescription)
                                 <tr>
                                     <td>{{ $counter }}</td>
-                                    <td> {{ $drug->test->name }} </td>
+                                    <td> {{ $prescription->drug->name }} </td>
+                                    <td> {{ $prescription->quantity }} </td>
                                     <td>
-                                        <a href="{{ route('doctor.removeTest', ['consultation'=>$consultation->id, 'test_id'=>$drug->id]) }}" class="btn btn-outline-primary btn-sm">
+                                        <a href="{{ route('doctor.removedrug', ['consultation'=>$consultation->id, 'drug_id'=>$prescription->drug_id]) }}" class="btn btn-outline-primary btn-sm">
                                             <i class="fas fa-minus"></i>
                                         </a>
                                     </td>

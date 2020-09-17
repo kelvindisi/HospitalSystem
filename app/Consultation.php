@@ -49,4 +49,8 @@ class Consultation extends Model
     {
         return $this->hasMany('App\RequestedTest');
     }
+    public function prescriptions()
+    {
+        return $this->hasMany('App\Prescription');
+    }
 }

@@ -15,8 +15,7 @@
                 <hr>
             </div>
             <div class="row">
-                <div class="col-sm-12 col-md-6 p-3" style="background-color:#ececf0 !important;
-;">
+                <div class="col-sm-12 col-md-6 p-3" style="background-color:#ececf0 !important;">
                     <p class="bold">Test List</p>
                     <div class="table-responsive">
                         <table class="table" id="dataTable">
@@ -59,7 +58,7 @@
                                     <td>{{ $counter }}</td>
                                     <td> {{ $test->test->name }} </td>
                                     <td>
-                                        <a href="{{ route('doctor.removeTest', ['consultation'=>$consultation->id, 'test_id'=>$test->id]) }}" class="btn btn-outline-primary btn-sm">
+                                        <a href="{{ route('doctor.removeTest', ['consultation'=>$consultation->id, 'test_id'=>$test->test->id]) }}" class="btn btn-outline-primary btn-sm">
                                             <i class="fas fa-minus"></i>
                                         </a>
                                     </td>

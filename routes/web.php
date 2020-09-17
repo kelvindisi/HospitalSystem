@@ -62,6 +62,10 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('/lab/{consultation}/request/', 'DoctorController@testRequest')->name('doctor.testRequest');
         Route::get('/testadd/{consultation}/{test_id}/', 'DoctorController@testAdd')->name('doctor.addTest');
         Route::get('/testremove/{consultation}/{test_id}/', 'DoctorController@testRemove')->name('doctor.removeTest');
+        Route::get('/prescription/{consultation}/', 'DoctorController@prescribeDrug')->name('doctor.prescribe');
+        Route::get('/prescription/{consultation}/{drug_id}/issue', 'DoctorController@prescribeIssue')->name('doctor.issue');
+        Route::get('/prescription/{consultation}/{drug_id}/remove', 'DoctorController@removedrug')->name('doctor.removedrug');
+        Route::post('/prescription/{consultation}/add', 'DoctorController@addPrescription')->name('doctor.savePrescription');
     });
 });
 

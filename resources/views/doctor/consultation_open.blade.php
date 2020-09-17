@@ -44,6 +44,18 @@
                         </a>
                    </div>
                    <div class="col-12 mt-3">
+                        <a href="{{ route ('doctor.prescribe', ['consultation' => $consultation->id]) }}" class="btn btn-block btn-lg btn-outline-dark">
+                            <div class="row">
+                                <div class="col-sm-3">
+                                    <i class="fas fa-user-tag"></i>
+                                </div>
+                                <div class="col-sm-9 text-left">
+                                    <span>Prescribe Drugs</span>
+                                </div>
+                            </div>     
+                        </a>
+                   </div>
+                   <div class="col-12 mt-3">
                         <a href="{{ route('doctor.testRequest',['consultation'=>$consultation->id]) }}" class="btn btn-block btn-lg btn-outline-danger">
                             <div class="row">
                                 <div class="col-sm-3">
