@@ -15,8 +15,9 @@ class CreatePrescriptionInvoicesTable extends Migration
     {
         Schema::create('prescription_invoices', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('prescription_id')->index();
+            $table->unsignedBigInteger('prescription_id')->unique()->index();
             $table->enum('paid', ['yes', 'no', 'pending'])->default('pending');
+            $table->float('amount');
             $table->foreign('prescription_id')->references('id')->on('prescriptions')->onDelete('CASCADE');
             $table->timestamps();
         });

@@ -2,12 +2,13 @@
 
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\Auth\LoginController;
 
 Route::get('/', function () {
     return redirect('/login');
 });
 
-Route::group(['middleware' => 'auth'], function () {
+Route::group(['middleware' => 'admin'], function () {
     Route::group(['prefix' => 'admin'], function () {
         // Admin Routes
         Route::get('', 'AdminController@index')->name('admin_index');
@@ -25,6 +26,9 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('/payment_mode/{mode}/edit', 'AdminController@editMode')->name('payment_mode_edit');
         Route::put('/payment_mode/{mode}/update', 'AdminController@updateMode')->name('payment_mode_update');
     });
+});
+
+Route::group(['middleware' => 'receptionist'], function () {
 
     Route::group(['prefix' => '/reception'], function () {
         Route::get('', 'ReceptionistController@index')->name('reception_index');
@@ -40,6 +44,8 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('/patinet/{patient}/edit/', 'ReceptionistController@edit')->name('patient_edit');
         Route::put('/patient/{patient}/update/', 'ReceptionistController@update')->name('update_patient');
     });
+});
+Route::group(['middleware' => ['finance']], function () {
     Route::group(['prefix' => '/finance'], function () {
         Route::get('', 'FinanceController@index')->name('accountant_dashboard');
         Route::group(['prefix' => 'invoice'], function () {
@@ -52,6 +58,8 @@ Route::group(['middleware' => 'auth'], function () {
             Route::resource('/tests', 'Inventory\TestController');
         });
     });
+});
+Route::group(['middleware' => ['doctor']], function () {
     Route::group(['prefix' => 'doctor'], function () {
         Route::get('/', 'DoctorController@index')->name('doctor.index');
         Route::get('/consultations/', 'DoctorController@pendingList')->name('doctor.pending');
@@ -66,9 +74,26 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('/prescription/{consultation}/{drug_id}/issue', 'DoctorController@prescribeIssue')->name('doctor.issue');
         Route::get('/prescription/{consultation}/{drug_id}/remove', 'DoctorController@removedrug')->name('doctor.removedrug');
         Route::post('/prescription/{consultation}/add', 'DoctorController@addPrescription')->name('doctor.savePrescription');
+    }); 
+});
+
+Route::group(['middleware' => ['pharmacy']], function () {
+    Route::group(['prefix' => 'pharmacy'], function () {
+        Route::get('/', 'PharmacyController@index')->name('pharmacy.index');
+        Route::get('/pending/', 'PharmacyController@pending')->name('pharmacy.pending');
+        Route::get('/paid/', 'PharmacyController@paid')->name('pharmacy.paid');
+        Route::get('/unpaid/', 'PharmacyController@unpaid')->name('pharmacy.unpaid');
+        Route::get('/issued/', 'PharmacyController@issued')->name('pharmacy.issued');
+        Route::get('/{consultation}/availability/', 'PharmacyController@availability')->name('pharmacy.availabity');
+        Route::post('/{consultation}/availability/', 'PharmacyController@availabilityConfirm')->name('pharmacy.availabilityConfirm');
+        Route::get('/presc/{consultation}/details', 'PharmacyController@details')->name('pharmacy.details');
+        Route::get('/presc/{prescription}/avail', 'PharmacyController@prescriptionAvaila')->name('pharmacy.pres_avail');
+        Route::get('/presc/{prescription}/not_avail', 'PharmacyController@prescriptionNotAvaila')->name('pharmacy.pres_not_avail');
     });
 });
 
 Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/home', function(){
+    return redirect(url(LoginController::redirectTo()));
+})->name('home');

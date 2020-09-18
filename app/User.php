@@ -50,24 +50,66 @@ class User extends Authenticatable
         static::created(function ($user) {
             if (User::count() == 1)
             {
-                $adminRoleId = '\App\User'::FindAdminRole();
-                $user->roles()->attach([1]);
+                $adminRoleId = User::FindAdminRole();
+                $user->roles()->attach([$adminRoleId]);
             }
         });
     }
 
     public static function FindAdminRole()
     {
+
+        User::createRoles();
+
         $role = Role::where('name', 'admin')->first();
+        return $role->id;
+    }
+
+    public static function createRoles()
+    {
+        // admin
+        if (!User::findRole('admin'))
+        {
+            User::addRole('admin');
+        }
+        // receptionist
+        if (!User::findRole('receptionist'))
+        {
+            User::addRole('receptionist');
+        }
+        // pharmacy
+        if (!User::findRole('pharmacy'))
+        {
+            User::addRole('pharmacy');
+        }
+        // doctor
+        if (!User::findRole('doctor'))
+        {
+            User::addRole('doctor');
+        }
+        // finance
+        if (!User::findRole('finance'))
+        {
+            User::addRole('finance');
+        }
+        // laboratory
+        if (!User::findRole('laboratory'))
+        {
+            User::addRole('laboratory');
+        }
+    }
+    public static function findRole($role)
+    {
+        $role = Role::where('name', $role)->first();
 
         if (!$role)
-        {
-            $role = new Role();
-            $role->name = 'admin';
-            
-            $role->save();
-        }
+            return false;
+        else
+            return true;
 
-        return $role->id;
+    }
+    public static function addRole($role)
+    {
+        Role::create(['name' => $role]);
     }
 }

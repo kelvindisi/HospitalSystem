@@ -8,6 +8,8 @@ class Prescription extends Model
 {
     protected $guarded = [];
 
+    // Relationship
+    
     public function drug()
     {
         return $this->belongsTo('App\Drug');
@@ -15,5 +17,9 @@ class Prescription extends Model
     public function consultation()
     {
         return $this->belongsTo('App\Consultation');
+    }
+    public function prescription_invoice()
+    {
+        return $this->hasOne('App\PrescriptionInvoice');
     }
 }

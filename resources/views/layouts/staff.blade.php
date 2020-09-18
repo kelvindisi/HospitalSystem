@@ -36,9 +36,12 @@
                 </button>
 
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    @guest()
+                    @admin()
                     <!-- Admin List -->
                     <ul class="navbar-nav">
+                        <li class="nav-item">
+                            <a href="{{ route('admin_index') }}" class="nav-link">Dashboard</a>
+                        </li>
                         <li class="nav-item">
                             <a href="{{ route('create_staff') }}" class="nav-link">Add Staff</a>
                         </li>
@@ -57,11 +60,26 @@
                             </div>
                         </li>
                     </ul>
-                    @endguest
+                    @endadmin
                     <!-- End of Admin List -->
-
-                    @guest() <!-- Finance -->
+                    
+                    <!-- Finance -->
+                    @finance() 
                     <ul class="navbar-nav">
+                        <li class="nav-item">
+                            <a href="{{ route('accountant_dashboard') }}" class="nav-link">Dashboard</a>
+                        </li>
+                    
+                        <li class="nav-item dropdown">
+                            <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                                Consultation Invoices
+                            </a>
+                            <div class="dropdown-menu">
+                                <a href="{{ route('consultationInvoices') }}" class="dropdown-item">Pending Consultations</a>
+                                <a href="{{ route('drugs.create') }}" class="dropdown-item">Paid Consultations</a>
+                            </div>
+                        </li>
+                        
                         <li class="nav-item dropdown">
                             <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                                 Drugs Inventory
@@ -71,8 +89,7 @@
                                 <a href="{{ route('drugs.create') }}" class="dropdown-item">Add</a>
                             </div>
                         </li>
-                    </ul>
-                    <ul class="navbar-nav">
+
                         <li class="nav-item dropdown">
                             <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                                 Lab Tests
@@ -84,9 +101,9 @@
                         </li>
                     </ul>
                     <!-- End of Finance List -->
-                    @endguest
+                    @endfinance
 
-
+                    @receptionist()
                     <!-- Receptionist -->
                     <ul class="navbar-nav">
                         <li class="nav-item">
@@ -100,7 +117,8 @@
                         </li>
                     </ul>
                     <!-- End of Receptionist -->
-                    
+                    @endreceptionist
+                    @doctor()
                     <!-- Doctor -->
                     <ul class="navbar-nav">
                         <li class="nav-item">
@@ -115,6 +133,26 @@
                         </li>
                     </ul>
                     <!-- End Doctor -->
+                    @enddoctor
+                    @pharmacy()
+                    <!-- Pharmacy -->
+                    <ul class="navbar-nav">
+                        <li class="nav-item">
+                            <a href="{{ route('pharmacy.index') }}" class="nav-link">Dashboard</a>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a href="#" data-toggle="dropdown" class="dropdown-toggle nav-link">Prescriptions</a>
+                            <div class="dropdown-menu">
+                                <a href="{{ route('pharmacy.pending') }}" class="dropdown-item">Pending</a>
+                                <a href="{{ route('pharmacy.unpaid') }}" class="dropdown-item">Unpaid</a>
+                                <a href="{{ route('pharmacy.paid') }}" class="dropdown-item">Paid</a>
+                                <a href="{{ route('pharmacy.issued') }}" class="dropdown-item">Issued</a>
+                            </div>
+                        </li>
+                    </ul>
+                    <!-- End Pharmacy -->
+                    @endpharmacy
+
                     <!-- Left Side Of Navbar -->
                     <ul class="navbar-nav mr-auto">
                     </ul>

@@ -52,7 +52,7 @@ class RegisterController extends Controller
         
         if ($role)
         {
-            if ($role->users()->count() > 0)
+            if($role->users->count() > 0)
                 return true;
             else
                 return false;
