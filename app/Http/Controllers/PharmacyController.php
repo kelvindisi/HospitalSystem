@@ -27,20 +27,101 @@ class PharmacyController extends Controller
         return view('pharmacy.details_prescriptions', ['consultation' => $consultation]);
     }
 
+    public function processed(Request $request, Consultation $consultation)
+    {
+        return view('pharmacy.details_processed_prescriptions', ['consultation' => $consultation]);
+    }
+    public function issueProcess(Request $request, Prescription $prescription)
+    {
+        if ($prescription->consultation->status != "seen")
+            return redirect()->back()->with('message', 'Doctor has not concluded the consultation yet.');
+        $prescription->issued = !$prescription->issued;
+        $prescription->save();
+        return redirect()->back()->with('success', 'Updated prescription issue details successfully');
+    }
+
+    public function issued()
+    {
+        $consultation_ids = [];
+        $consultations = [];
+        $prescriptions = Prescription::where('issued', true)->get();
+        foreach($prescriptions as $prescription)
+        {
+            if(!in_array($prescription->consultation->id, $consultation_ids))
+            {
+                array_push($consultation_ids, $prescription->consultation->id);
+                array_push($consultations, $prescription->consultation);
+            }
+        }
+        return view('pharmacy.prescription_processed_list', ['consultations' => $consultations]);
+    }
+
     public function unpaid()
     {
-        $consultations = $this->consultationsWithPrescriptions();
-        $pending = $this->getByPaidAvailability($consultations, 'pending', 'yes');
+        $un_paid  = [];
         
-        return view('pharmacy.prescription_list')->with(['consultations' => $pending]);
+        $add = true;
+        $consultations = $this->consultationsWithPrescriptions();
+
+        foreach($consultations as $consultation)
+        {
+            $prescriptions = $consultation->prescriptions;
+            foreach($prescriptions as $prescription)
+            {
+                if($prescription->prescription_invoice)
+                {
+                    $invoice = $prescription->prescription_invoice;
+
+                    if($invoice->paid != "no" )
+                        $add = false;
+                }
+
+                if ($add)
+                    array_push($un_paid, $consultation);
+                else
+                    $add = true;
+            }
+        }
+        
+        return view('pharmacy.prescription_list')->with(['consultations' => $un_paid]);
     }
     
     public function paid()
     {
-        $consultations = $this->consultationsWithPrescriptions();
-        $pending = $this->getByStatusAvailability($consultations, 'yes', 'yes');
+        $paid  = [];
         
-        return view('pharmacy.prescription_list')->with(['consultations' => $pending]);
+        $add = true;
+        $consultation_ids = [];
+        $consultations = $this->consultationsWithPrescriptions();
+
+        foreach($consultations as $consultation)
+        {
+            $prescriptions = $consultation->prescriptions;
+            foreach($prescriptions as $prescription)
+            {
+                $allIssued = true;
+                if($prescription->prescription_invoice)
+                {
+                    $invoice = $prescription->prescription_invoice;
+                    if ($prescription->issued != true)
+                        $allIssued = false;
+
+                    if($invoice->paid != "yes")
+                        $add = false;
+                }
+
+                if ($add && !$allIssued)
+                {
+                    if(!in_array($consultation->id, $consultation_ids))
+                        array_push($paid, $consultation);
+                    array_push($consultation_ids, $consultation->id);
+                }
+                else
+                    $add = true;
+            }
+        }
+        
+        return view('pharmacy.prescription_processed_list')->with(['consultations' => $paid]);
     }
 
     // prescription management
@@ -76,45 +157,11 @@ class PharmacyController extends Controller
             $prescription->save();
             return redirect()->back()->with('message', 'Prescription removed from payment list.');
         }
-        return redirect()->back()->with('message', 'Failed to remove prescription from payment list, try again.');
+        return redirect()->back()->with('error', 'Prescription maybe already be paid for.');
     }
-
-   
-    // Availability - availability - yes, no, pending
-    // Status - paid - yes, no, pending
 
     // common functions
-    
-    private function getByPaidAvailabilityIssued($consultations, $paid, $availability, $issued)
-    {
-        $consultationByStatus = [];
-        foreach($consultations as $consultation)
-        {
-            $prescriptions = $consultation->prescriptions;
-            $add = false;
-
-            foreach($prescriptions as $prescription)
-            {
-                $paid  = $prescription->paid == $paid? true:false;
-                $availability  = $prescription->availability == $availability? true:false;
-                $issued  = $prescription->issued == $issued? true:false;
-
-                if ($paid && $availability && $issued)
-                {
-                    $add = true;
-                    break;
-                }
-            }
-
-            if ($add)
-            {
-                array_push($consultationByStatus, $consultation);
-                $add = false;
-            }
-        }
-        return $consultationByStatus;
-    }
-    private function getByPaidAvailability($consultations, $paid, $availability)
+    private static function getByPaidAvailability($consultations, $paid, $availability)
     {
         $consultationByStatus = [];
         foreach($consultations as $consultation)
@@ -142,7 +189,7 @@ class PharmacyController extends Controller
         }
         return $consultationByStatus;
     }
-    private function getByAvailability($consultations, $availability)
+    private static function getByAvailability($consultations, $availability)
     {
         $consultationByStatus = [];
         foreach($consultations as $consultation)
@@ -169,8 +216,16 @@ class PharmacyController extends Controller
         }
         return $consultationByStatus;
     }
+
+    public static function consultationHasPrescription($consultation)
+    {
+        if ($consultation->prescriptions->count() > 0)
+            return true;
+        else
+            return false;
+    }
     
-    private function consultationsWithPrescriptions()
+    public static function consultationsWithPrescriptions()
     {
         $withPrescriptions = [];
         $consultations = Consultation::all();
@@ -182,10 +237,17 @@ class PharmacyController extends Controller
 
         return $withPrescriptions;
     }
-    private function getConsultation($id)
+    
+    public static function prescriptionHasInvoice($prescription)
     {
-        return Consultation::find($id);
+        if ($prescription->prescription_invoice)
+        {
+            return true;
+        } else {
+            return false;
+        }
     }
+    
     private function createPrescriptionInvoice($prescription)
     {
         if ($prescription->prescription_invoice)
@@ -199,16 +261,6 @@ class PharmacyController extends Controller
 
         $presInvoice = PrescriptionInvoice::create($data);
         return $presInvoice;
-    }
-    
-    private function prescriptionHasInvoice($prescription)
-    {
-        if ($prescription->prescription_invoice)
-        {
-            return true;
-        } else {
-            return false;
-        }
     }
     private function removePrescriptionInvoice($prescription)
     {

@@ -50,8 +50,15 @@ Route::group(['middleware' => ['finance']], function () {
         Route::get('', 'FinanceController@index')->name('accountant_dashboard');
         Route::group(['prefix' => 'invoice'], function () {
             Route::get('/consultations/', 'FinanceController@ConsultationInvoices')->name('consultationInvoices');
+            Route::get('/consultations/paid', 'FinanceController@ConsultationPaidInvoices')->name('consultationInvoicesPaid');
+            Route::get('/consultations/not_paid', 'FinanceController@ConsultationNotPaidInvoices')->name('consultationInvoicesNotPaid');
             Route::get('/consultation/{invoice}/details', 'FinanceController@ConsultationInDetails')->name('consultationInDetails');
             Route::put('/consultation/{invoice}', 'FinanceController@ConInStatusUpdate')->name('conInUpdate');
+            Route::get('/prescriptions/pending', 'FinanceController@pendingPrescriptions')->name('pending_prescriptions');
+            Route::get('/prescriptions/paid', 'FinanceController@paidPrescriptions')->name('paid_prescriptions');
+            Route::get('/prescriptions/unpaid', 'FinanceController@unpaidPrescriptions')->name('unpaid_prescriptions');
+            Route::get('/prescription/{consultation}/details', 'FinanceController@prescriptionDetails')->name('prescription_details');
+            Route::post('/update_pres/{invoice}', 'FinanceController@updateInvoiceDetails')->name('update_prescription');
         });
         Route::group(['prefix' => 'inventory'], function () {
             Route::resource('/drugs', 'Inventory\DrugController');
@@ -87,8 +94,10 @@ Route::group(['middleware' => ['pharmacy']], function () {
         Route::get('/{consultation}/availability/', 'PharmacyController@availability')->name('pharmacy.availabity');
         Route::post('/{consultation}/availability/', 'PharmacyController@availabilityConfirm')->name('pharmacy.availabilityConfirm');
         Route::get('/presc/{consultation}/details', 'PharmacyController@details')->name('pharmacy.details');
+        Route::get('/presc/{consultation}/processed', 'PharmacyController@processed')->name('processed.details');
         Route::get('/presc/{prescription}/avail', 'PharmacyController@prescriptionAvaila')->name('pharmacy.pres_avail');
         Route::get('/presc/{prescription}/not_avail', 'PharmacyController@prescriptionNotAvaila')->name('pharmacy.pres_not_avail');
+        Route::put('/presc/{prescription}', 'PharmacyController@issueProcess')->name('pharmacy.issue');
     });
 });
 

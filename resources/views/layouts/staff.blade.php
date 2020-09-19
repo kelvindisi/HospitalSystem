@@ -76,7 +76,30 @@
                             </a>
                             <div class="dropdown-menu">
                                 <a href="{{ route('consultationInvoices') }}" class="dropdown-item">Pending Consultations</a>
-                                <a href="{{ route('drugs.create') }}" class="dropdown-item">Paid Consultations</a>
+                                <a href="{{ route('consultationInvoicesPaid') }}" class="dropdown-item">Paid Consultations</a>
+                                <a href="{{ route('consultationInvoicesNotPaid') }}" class="dropdown-item">Not Paid Consultations</a>
+                            </div>
+                        </li>
+                        
+                        <li class="nav-item dropdown">
+                            <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                                Prescription Invoices
+                            </a>
+                            <div class="dropdown-menu">
+                                <a href="{{ route('pending_prescriptions') }}" class="dropdown-item">Pending Invoices</a>
+                                <a href="{{ route('paid_prescriptions') }}" class="dropdown-item">Paid Paid</a>
+                                <a href="{{ route('unpaid_prescriptions') }}" class="dropdown-item">Not Paid</a>
+                            </div>
+                        </li>
+
+                        <li class="nav-item dropdown">
+                            <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                                Test Invoices
+                            </a>
+                            <div class="dropdown-menu">
+                                <a href="{{ route('consultationInvoices') }}" class="dropdown-item">Fully Paid</a>
+                                <a href="{{ route('consultationInvoicesPaid') }}" class="dropdown-item">Half Paid</a>
+                                <a href="{{ route('consultationInvoicesNotPaid') }}" class="dropdown-item">Not Paid</a>
                             </div>
                         </li>
                         
@@ -144,8 +167,7 @@
                             <a href="#" data-toggle="dropdown" class="dropdown-toggle nav-link">Prescriptions</a>
                             <div class="dropdown-menu">
                                 <a href="{{ route('pharmacy.pending') }}" class="dropdown-item">Pending</a>
-                                <a href="{{ route('pharmacy.unpaid') }}" class="dropdown-item">Unpaid</a>
-                                <a href="{{ route('pharmacy.paid') }}" class="dropdown-item">Paid</a>
+                                <a href="{{ route('pharmacy.paid') }}" class="dropdown-item">Proccessed</a>
                                 <a href="{{ route('pharmacy.issued') }}" class="dropdown-item">Issued</a>
                             </div>
                         </li>
