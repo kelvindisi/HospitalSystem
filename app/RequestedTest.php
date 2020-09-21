@@ -18,4 +18,12 @@ class RequestedTest extends Model
     {
         return $this->belongsTo('App\Test');
     }
+    public function test_result()
+    {
+        return $this->hasOne('App\TestResult');
+    }
+    public function test_invoice()
+    {
+        return $this->hasOne('App\TestInvoice');
+    }
 }

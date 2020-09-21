@@ -13,4 +13,8 @@ class PrescriptionInvoice extends Model
     {
         return $this->belongsTo('App\Prescription');
     }
+    public function test_invoice()
+    {
+        return $this->hasOne('App\TestInvoice');
+    }
 }

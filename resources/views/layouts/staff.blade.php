@@ -174,6 +174,24 @@
                     </ul>
                     <!-- End Pharmacy -->
                     @endpharmacy
+                    @laboratory()
+                    <!-- Pharmacy -->
+                    <ul class="navbar-nav">
+                        <li class="nav-item">
+                            <a href="{{ route('lab.index') }}" class="nav-link">Dashboard</a>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a href="#" data-toggle="dropdown" class="dropdown-toggle nav-link">Test</a>
+                            <div class="dropdown-menu">
+                                <a href="{{ route('lab.pending') }}" class="dropdown-item">Pending</a>
+                                <a href="{{ route('pharmacy.paid') }}" class="dropdown-item">Unpaid</a>
+                                <a href="{{ route('pharmacy.issued') }}" class="dropdown-item">Paid</a>
+                                <a href="{{ route('pharmacy.issued') }}" class="dropdown-item">Issued</a>
+                            </div>
+                        </li>
+                    </ul>
+                    <!-- End Pharmacy -->
+                    @endlaboratory
 
                     <!-- Left Side Of Navbar -->
                     <ul class="navbar-nav mr-auto">

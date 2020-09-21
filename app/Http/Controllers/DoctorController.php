@@ -190,6 +190,9 @@ class DoctorController extends Controller
     public function testRemove(Request $request, Consultation $consultation, $test_id)
     {
         $test = Test::find($test_id);
+        $removed = false;
+        $paid = false;
+
         if ($test)
         {
             $tests = $consultation->requested_tests;
@@ -197,11 +200,28 @@ class DoctorController extends Controller
             {
                 if ($test->id == $rqTest->test_id)
                 {
-                    $rqTest->delete();
+                    if ($rqTest->test_invoice)
+                    {
+                        if ($rqTest->test_invoice->paid == 'yes')
+                        {
+                            $paid = true;
+                        } else {
+                            $rqTest->delete();
+                            $removed = true;
+                        }
+                    }else{
+                        $rqTest->delete();
+                        $removed = true;
+                    }
                 }
             }
-            $message['title'] = 'message';
+        }
+        if ($removed) {
+            $message['title'] = 'success';
             $message['message'] = 'Removed test from requested.';
+        } elseif($paid) {
+            $message['title'] = 'message';
+            $message['message'] = 'Test is already paid for cannot be removed.';
         } else {
             $message['title'] = 'error';
             $message['message'] = 'Unable to delete the test.';

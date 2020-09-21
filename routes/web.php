@@ -101,6 +101,15 @@ Route::group(['middleware' => ['pharmacy']], function () {
     });
 });
 
+Route::group(['middleware' => ['laboratory']], function () {
+    Route::group(['prefix' => 'laboratory'], function () {
+        Route::get('/', 'LabController@index')->name('lab.index');
+        Route::get('/pending', 'LabController@pending')->name('lab.pending');
+        Route::get('/{consultation}/details', 'LabController@details')->name('lab.details');
+        Route::post('/{rqTest}/update', 'LabController@updateDoability')->name('lab.updateDoability');
+    });
+});
+
 Auth::routes();
 
 Route::get('/home', function(){

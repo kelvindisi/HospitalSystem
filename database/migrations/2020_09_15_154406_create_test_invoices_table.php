@@ -15,11 +15,11 @@ class CreateTestInvoicesTable extends Migration
     {
         Schema::create('test_invoices', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('test_id')->unique()->index();
+            $table->unsignedBigInteger('requested_test_id')->unique()->index();
             $table->enum('paid', ['yes', 'no', 'pending'])->default('pending');
             $table->float('amount');
 
-            $table->foreign('test_id')->references('id')->on('tests')->onDelete('CASCADE');
+            $table->foreign('requested_test_id')->references('id')->on('requested_tests')->onDelete('CASCADE');
             $table->timestamps();
         });
     }
