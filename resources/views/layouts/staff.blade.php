@@ -62,47 +62,14 @@
                     </ul>
                     @endadmin
                     <!-- End of Admin List -->
-                    
+
                     <!-- Finance -->
-                    @finance() 
+                    @finance()
                     <ul class="navbar-nav">
                         <li class="nav-item">
                             <a href="{{ route('accountant_dashboard') }}" class="nav-link">Dashboard</a>
                         </li>
-                    
-                        <li class="nav-item dropdown">
-                            <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-                                Consultation Invoices
-                            </a>
-                            <div class="dropdown-menu">
-                                <a href="{{ route('consultationInvoices') }}" class="dropdown-item">Pending Consultations</a>
-                                <a href="{{ route('consultationInvoicesPaid') }}" class="dropdown-item">Paid Consultations</a>
-                                <a href="{{ route('consultationInvoicesNotPaid') }}" class="dropdown-item">Not Paid Consultations</a>
-                            </div>
-                        </li>
-                        
-                        <li class="nav-item dropdown">
-                            <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-                                Prescription Invoices
-                            </a>
-                            <div class="dropdown-menu">
-                                <a href="{{ route('pending_prescriptions') }}" class="dropdown-item">Pending Invoices</a>
-                                <a href="{{ route('paid_prescriptions') }}" class="dropdown-item">Paid Paid</a>
-                                <a href="{{ route('unpaid_prescriptions') }}" class="dropdown-item">Not Paid</a>
-                            </div>
-                        </li>
 
-                        <li class="nav-item dropdown">
-                            <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-                                Test Invoices
-                            </a>
-                            <div class="dropdown-menu">
-                                <a href="{{ route('consultationInvoices') }}" class="dropdown-item">Fully Paid</a>
-                                <a href="{{ route('consultationInvoicesPaid') }}" class="dropdown-item">Half Paid</a>
-                                <a href="{{ route('consultationInvoicesNotPaid') }}" class="dropdown-item">Not Paid</a>
-                            </div>
-                        </li>
-                        
                         <li class="nav-item dropdown">
                             <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                                 Drugs Inventory
@@ -122,6 +89,39 @@
                                 <a href="{{ route('tests.create') }}" class="dropdown-item">Add</a>
                             </div>
                         </li>
+
+                        <li class="nav-item dropdown">
+                            <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                                Consultation Invoices
+                            </a>
+                            <div class="dropdown-menu">
+                                <a href="{{ route('consultationInvoices') }}" class="dropdown-item">Pending Consultations</a>
+                                <a href="{{ route('consultationInvoicesPaid') }}" class="dropdown-item">Paid Consultations</a>
+                                <a href="{{ route('consultationInvoicesNotPaid') }}" class="dropdown-item">Not Paid Consultations</a>
+                            </div>
+                        </li>
+
+                        <li class="nav-item dropdown">
+                            <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                                Prescription Invoices
+                            </a>
+                            <div class="dropdown-menu">
+                                <a href="{{ route('pending_prescriptions') }}" class="dropdown-item">Pending Invoices</a>
+                                <a href="{{ route('paid_prescriptions') }}" class="dropdown-item">Paid Paid</a>
+                                <a href="{{ route('unpaid_prescriptions') }}" class="dropdown-item">Not Paid</a>
+                            </div>
+                        </li>
+
+                        <li class="nav-item dropdown">
+                            <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                                Test Invoices
+                            </a>
+                            <div class="dropdown-menu">
+                                <a href="{{ route('tests.pending') }}" class="dropdown-item">Pending (Unprocessed)</a>
+                                <a href="{{ route('fn_tests.processed') }}" class="dropdown-item">Processed</a>
+                            </div>
+                        </li>
+
                     </ul>
                     <!-- End of Finance List -->
                     @endfinance
@@ -184,9 +184,8 @@
                             <a href="#" data-toggle="dropdown" class="dropdown-toggle nav-link">Test</a>
                             <div class="dropdown-menu">
                                 <a href="{{ route('lab.pending') }}" class="dropdown-item">Pending</a>
-                                <a href="{{ route('pharmacy.paid') }}" class="dropdown-item">Unpaid</a>
-                                <a href="{{ route('pharmacy.issued') }}" class="dropdown-item">Paid</a>
-                                <a href="{{ route('pharmacy.issued') }}" class="dropdown-item">Issued</a>
+                                <a href="{{ route('lab.paid.undone') }}" class="dropdown-item">Undone Tests</a>
+                                <a href="{{ route('lab.done_tests') }}" class="dropdown-item">Done Tests</a>
                             </div>
                         </li>
                     </ul>

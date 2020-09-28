@@ -34,7 +34,7 @@ Route::group(['middleware' => 'receptionist'], function () {
         Route::get('', 'ReceptionistController@index')->name('reception_index');
         Route::get('/register', 'ReceptionistController@create')->name('register_patient');
         Route::get('/consultations', 'ReceptionistController@pendingConsultations')->name('pending_consultations');
-        Route::get('/consultation/{consultation}/delete/', 
+        Route::get('/consultation/{consultation}/delete/',
                 'ReceptionistController@removeConsultation')->name('delete_consultation');
         Route::get('/patients', 'ReceptionistController@patients')->name('patients');
         Route::get('/patient/{patient}/edit', 'ReceptionistController@edit')->name('edit_patient');
@@ -45,6 +45,7 @@ Route::group(['middleware' => 'receptionist'], function () {
         Route::put('/patient/{patient}/update/', 'ReceptionistController@update')->name('update_patient');
     });
 });
+
 Route::group(['middleware' => ['finance']], function () {
     Route::group(['prefix' => '/finance'], function () {
         Route::get('', 'FinanceController@index')->name('accountant_dashboard');
@@ -59,6 +60,12 @@ Route::group(['middleware' => ['finance']], function () {
             Route::get('/prescriptions/unpaid', 'FinanceController@unpaidPrescriptions')->name('unpaid_prescriptions');
             Route::get('/prescription/{consultation}/details', 'FinanceController@prescriptionDetails')->name('prescription_details');
             Route::post('/update_pres/{invoice}', 'FinanceController@updateInvoiceDetails')->name('update_prescription');
+//          Routes for test invoices
+            Route::get('/tests/pending', 'FinanceController@pendingTestInv')->name('tests.pending');
+            Route::get('/test/{consultation}/details/', 'FinanceController@consulTestInv')->name('test.detailsInv');
+            Route::get('/test/{invoice}/paid', 'FinanceController@changeInvToPayState')->name('test.setPaid');
+            Route::get('/test/{invoice}/unpaid', 'FinanceController@changeInvToUnpaidState')->name('test.setUnpaid');
+            Route::get('/tests/processed/', 'FinanceController@paidTestInv')->name('fn_tests.processed');
         });
         Route::group(['prefix' => 'inventory'], function () {
             Route::resource('/drugs', 'Inventory\DrugController');
@@ -81,7 +88,7 @@ Route::group(['middleware' => ['doctor']], function () {
         Route::get('/prescription/{consultation}/{drug_id}/issue', 'DoctorController@prescribeIssue')->name('doctor.issue');
         Route::get('/prescription/{consultation}/{drug_id}/remove', 'DoctorController@removedrug')->name('doctor.removedrug');
         Route::post('/prescription/{consultation}/add', 'DoctorController@addPrescription')->name('doctor.savePrescription');
-    }); 
+    });
 });
 
 Route::group(['middleware' => ['pharmacy']], function () {
@@ -107,6 +114,11 @@ Route::group(['middleware' => ['laboratory']], function () {
         Route::get('/pending', 'LabController@pending')->name('lab.pending');
         Route::get('/{consultation}/details', 'LabController@details')->name('lab.details');
         Route::post('/{rqTest}/update', 'LabController@updateDoability')->name('lab.updateDoability');
+        Route::get('/paid/undone/', 'LabController@paidUndone')->name('lab.paid.undone');
+        Route::get('/paid/{consultation}/process', 'LabController@processTest')->name('lab.processTest');
+        Route::get('/fill/{test}/results', 'LabController@fillResults')->name('lab.fillResults');
+        Route::post('/result/{test}/save', 'LabController@saveResults')->name('lab.result_save');
+        Route::get('/tests/done', 'LabController@completeTest')->name('lab.done_tests');
     });
 });
 

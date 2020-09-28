@@ -15,9 +15,10 @@ class CreateTestResultsTable extends Migration
     {
         Schema::create('test_results', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('test_id')->index();
+            $table->unsignedBigInteger('requested_test_id')->index();
             $table->text('result');
             $table->timestamps();
+            $table->foreign('requested_test_id')->references('id')->on('requested_tests')->cascadeOnDelete();
         });
     }
 

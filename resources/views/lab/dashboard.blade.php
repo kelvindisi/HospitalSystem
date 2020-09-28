@@ -9,7 +9,7 @@
                     <div class="row no-gutters align-items-center">
                         <div class="col mr-2">
                             <div class="text-xs font-weight-bold text-danger text-uppercase mb-1">Pending Tests</div>
-                            <div class="h5 mb-0 font-weight-bold text-gray-800"></div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800">{{ $pending }}</div>
                         </div>
                         <div class="col-auto">
                             <i class="text-danger fas fa-lock fa-2x text-gray-300"></i>
@@ -36,19 +36,19 @@
                             <h1 class="text-gray text-center card-title text-white bolder">Test Pending</h1>
                             <hr>
                             <div class="col-12 text-center">
-                                <a href="{{ route('consultationInvoices') }}">
+                                <a href="{{ route('lab.pending') }}">
                                     <i class="fas fa-file-invoice fa-3x text-white"></i>
                                 </a>
                             </div>
                         </div>
                     </div>
-                    
+
                     <div class="card">
                         <div class="card-body bg-primary shadow">
                             <h1 class="text-gray text-center card-title text-white bolder">Pending Results</h1>
                             <hr>
                             <div class="col-12 text-center">
-                                <a href="">
+                                <a href="{{ route('lab.paid.undone') }}">
                                     <i class="fas fa-file-invoice fa-3x text-white"></i>
                                 </a>
                             </div>
@@ -59,7 +59,7 @@
                             <h1 class="text-gray text-center card-title text-white bolder">Completed Tests</h1>
                             <hr>
                             <div class="col-12 text-center">
-                                <a href="">
+                                <a href="{{ route('lab.done_tests') }}">
                                     <i class="fas fa-file-invoice fa-3x text-white"></i>
                                 </a>
                             </div>

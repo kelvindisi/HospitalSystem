@@ -18,7 +18,8 @@ class ReceptionistController extends Controller
      */
     public function index()
     {
-        return view('reception.dashboard');
+        $count = Consultation::where(['status' => 'pending'])->count();
+        return view('reception.dashboard', ['pending' => $count]);
     }
 
     /**
@@ -29,7 +30,7 @@ class ReceptionistController extends Controller
     public function create()
     {
         return view('reception.add_patient');
-    } 
+    }
 
     /**
      * Return List of all patients
@@ -54,7 +55,7 @@ class ReceptionistController extends Controller
             'phone' => ['required', 'numeric'],
             'location' => ['required', 'string']
         ]);
-        
+
         if ($request->post('id_number'))
         {
             $idDetails = $request->validate(['id_number' => ['numeric', 'unique:patients']]);
@@ -107,7 +108,7 @@ class ReceptionistController extends Controller
             'phone' => ['required', 'numeric'],
             'location' => ['required', 'string']
         ]);
-        
+
         $patientId = $request->validate(['patient_id' => ['required', 'numeric']])['patient_id'];
 
         if ($request->post('id_number'))
@@ -125,7 +126,7 @@ class ReceptionistController extends Controller
             }
         }
 
-        
+
 
         if ($patientId != $patient->id)
         {
@@ -135,7 +136,7 @@ class ReceptionistController extends Controller
         $patient->update($data);
         return redirect(route('patient_details', ['patient' => $patient->id]))
                 ->with('success', "Successfully updated.");
-        
+
     }
     public function addConsult(Request $request, Patient $patient)
     {
@@ -159,7 +160,7 @@ class ReceptionistController extends Controller
                     ->with('warning', 'Already have a consultation scheduled for today.');
             }
         }
-        
+
         $dt['payment_mode_id'] = $data['payment_mode'];
         $dt['patient_id'] = $patient->id;
 
@@ -167,7 +168,7 @@ class ReceptionistController extends Controller
 
         return redirect(route('pending_consultations'))
             ->with('success', 'Patient added to consultation list successfully');
-        
+
     }
     public function pendingConsultations()
     {

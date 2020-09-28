@@ -8,8 +8,8 @@ class TestResult extends Model
 {
     protected $guarded = [];
 
-    public function test_request()
+    public function requested_test()
     {
-        return $this->belongsTo('App\TestRequest');
+        return $this->belongsTo('App\RequestedTest');
     }
 }

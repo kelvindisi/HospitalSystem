@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\TestInvoice;
 use Illuminate\Http\Request;
 use App\ConsultationInvoice;
 use App\Consultation;
@@ -125,5 +126,70 @@ class FinanceController extends Controller
         $invoice->paid = $paid;
         $invoice->save();
         return redirect()->back()->with('message', 'Updated invoice payment details.');
+    }
+
+    // Test
+
+    /**
+     *  Pending test Invoices
+     */
+    public function pendingTestInv()
+    {
+        $consultations = $this->getConsulByInvoiceState('pending');
+
+        return view('finance.pending_test_list', ['consultations' => $consultations]);
+    }
+    public function paidTestInv()
+    {
+        $consultations = $this->getConsulByInvoiceState('yes');
+
+        return view('finance.pending_test_list', ['consultations' => $consultations]);
+    }
+    public function consulTestInv(Request $request, Consultation $consultation)
+    {
+        return view('finance.test_invoice_details', ['consultation' =>$consultation]);
+    }
+    public function changeInvToPayState(Request $request, TestInvoice $invoice)
+    {
+        if ($invoice->paid == 'yes')
+            return redirect()->back()->with('message', 'Invoice is already updated as paid');
+
+        $invoice->paid = 'yes';
+        $invoice->save();
+
+        return redirect()->back()->with('message', 'Updated invoice to paid');
+    }
+    public function changeInvToUnpaidState(Request $request, TestInvoice $invoice)
+    {
+        if ($invoice->paid == 'no')
+            return redirect()->back()->with('message', 'Invoice is already updated as unpaid');
+
+        if ($invoice->requested_test->test_result)
+            return redirect()->back()->with('error', 'Test already has been performed and results submitted');
+
+        $invoice->paid = 'no';
+        $invoice->save();
+
+        return redirect()->back()->with('message', 'Updated invoice details to unpaid');
+    }
+
+    // Test Invoice Common Functions
+    public function getConsulByInvoiceState($state)
+    {
+        $invoices = TestInvoice::where(['paid' => $state])->get();
+        $consultations = [];
+        $consultation_ids = [];
+
+        foreach($invoices as $invoice)
+        {
+            $consultation = $invoice->requested_test->consultation;
+            if (!in_array($consultation->id, $consultation_ids))
+            {
+                array_push($consultations, $consultation);
+                array_push($consultation_ids, $consultation->id);
+            }
+        }
+
+        return $consultations;
     }
 }
