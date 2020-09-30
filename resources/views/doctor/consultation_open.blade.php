@@ -20,7 +20,7 @@
                 </div>
                 <div class="col-md-4 col-sm-12 flex-row">
                    <div class="col-12">
-                        <a href="" class="btn btn-block btn-lg btn-warning">
+                        <button class="btn btn-block btn-lg btn-warning" data-toggle="modal" data-target="#patientResults">
                             <div class="row">
                                 <div class="col-sm-3">
                                     <i class="fas fa-vial"></i>
@@ -29,7 +29,7 @@
                                     <span>Lab Result</span>
                                 </div>
                             </div>
-                        </a>
+                        </button>
                    </div>
                    <div class="col-12 mt-3">
                         <button class="btn btn-block btn-lg btn-outline-success" data-toggle="modal" data-target="#patientHistory">
@@ -87,4 +87,5 @@
 </div>
 
 @include('doctor.patient_history')
+@include('doctor.patient_lab_results')
 @endsection
