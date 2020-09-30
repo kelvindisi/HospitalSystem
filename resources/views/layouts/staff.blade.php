@@ -151,7 +151,9 @@
                             <a href="#" data-toggle="dropdown" class="dropdown-toggle nav-link">Consultations</a>
                             <div class="dropdown-menu">
                                 <a href="{{ route('doctor.pending') }}" class="dropdown-item">Pending</a>
-                                <a href="{{ route('doctor.pending_results') }}" class="dropdown-item">With Lab Test(s)</a>
+                                <a href="{{ route('doctor.pendingProcessingTests') }}" class="dropdown-item">Lab Unprocessed</a>
+                                <a href="{{ route('doctor.pending_results') }}" class="dropdown-item">Pending Results</a>
+                                <a href="{{ route('doctor.ready_results') }}" class="dropdown-item">With Ready Lab Test(s)</a>
                             </div>
                         </li>
                     </ul>

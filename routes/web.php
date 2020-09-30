@@ -78,6 +78,8 @@ Route::group(['middleware' => ['doctor']], function () {
         Route::get('/', 'DoctorController@index')->name('doctor.index');
         Route::get('/consultations/', 'DoctorController@pendingList')->name('doctor.pending');
         Route::get('/consultations/lab', 'DoctorController@pendingLabList')->name('doctor.pending_results');
+        Route::get('/lab/unprocessed', 'DoctorController@pendingProcessingTests')->name('doctor.pendingProcessingTests');
+        Route::get('/consultations/lab/ready', 'DoctorController@readyLabList')->name('doctor.ready_results');
         Route::post('/consultation/{consultation}/diagnosis', 'DoctorController@updateDiagnosis')->name('doctor.diagnosisUpdate');
         Route::get('/consultation/{consultation}/details', 'DoctorController@pendingDetails')->name('doctor.pending_open');
         Route::get('/consultation/{consultation}/complete', 'DoctorController@completeTreatement')->name('doctor.complete');

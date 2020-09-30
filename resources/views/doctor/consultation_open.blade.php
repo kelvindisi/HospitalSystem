@@ -28,11 +28,11 @@
                                 <div class="col-sm-9 text-left">
                                     <span>Lab Result</span>
                                 </div>
-                            </div>     
+                            </div>
                         </a>
                    </div>
                    <div class="col-12 mt-3">
-                        <a href="" class="btn btn-block btn-lg btn-outline-success">
+                        <button class="btn btn-block btn-lg btn-outline-success" data-toggle="modal" data-target="#patientHistory">
                             <div class="row">
                                 <div class="col-sm-3">
                                     <i class="fas fa-user-tag"></i>
@@ -40,8 +40,8 @@
                                 <div class="col-sm-9 text-left">
                                     <span>Patient History</span>
                                 </div>
-                            </div>     
-                        </a>
+                            </div>
+                        </button>
                    </div>
                    <div class="col-12 mt-3">
                         <a href="{{ route ('doctor.prescribe', ['consultation' => $consultation->id]) }}" class="btn btn-block btn-lg btn-outline-dark">
@@ -52,7 +52,7 @@
                                 <div class="col-sm-9 text-left">
                                     <span>Prescribe Drugs</span>
                                 </div>
-                            </div>     
+                            </div>
                         </a>
                    </div>
                    <div class="col-12 mt-3">
@@ -64,7 +64,7 @@
                                 <div class="col-sm-9 text-left">
                                     <span>Request Lab Test</span>
                                 </div>
-                            </div>     
+                            </div>
                         </a>
                    </div>
                    <div class="col-12 mt-3">
@@ -76,13 +76,15 @@
                                 <div class="col-sm-9 text-left">
                                     <span>Complete Treatment</span>
                                 </div>
-                            </div>     
+                            </div>
                         </a>
                    </div>
                 </div>
-                
+
             </div>
         </div>
     </div>
 </div>
+
+@include('doctor.patient_history')
 @endsection

@@ -16,9 +16,10 @@ class DoctorController extends Controller
     {
         return view('doctor.dashboard');
     }
+
     public function pendingList()
     {
-        $list = Consultation::where(['status' => 'pending', 'test_ready' => true])->oldest()->get();
+        $list = Consultation::where(['status' => 'pending'])->oldest()->get();
         $consultations = [];
         foreach($list as $consultation)
         {
@@ -31,21 +32,118 @@ class DoctorController extends Controller
 
         return view('doctor.consultations', ['consultations' => $consultations]);
     }
-    public function pendingLabList()
+
+    public function pendingProcessingTests()
     {
-        $list = Consultation::where(['status' => 'pending', 'test_ready' => true])->oldest()->get();
+        $list = Consultation::where(['status' => 'pending'])->oldest()->get();
         $consultations = [];
         foreach($list as $consultation)
         {
             if ($consultation->consultation_invoice->paid == 'yes')
             {
                 if ($consultation->requested_tests->count() > 0)
-                    array_push($consultations, $consultation);
+                {
+                    $tests =  $consultation->requested_tests;
+
+                    foreach($tests as $test)
+                    {
+                        if ($test->doable == 'pending')
+                            array_push($consultations, $consultation);
+                    }
+                }
+
             }
         }
 
         return view('doctor.consultations', ['consultations' => $consultations]);
     }
+
+    public function pendingLabList()
+    {
+        $list = Consultation::where(['status' => 'pending'])->oldest()->get();
+        $consultations = [];
+        foreach($list as $consultation)
+        {
+            if ($consultation->consultation_invoice->paid == 'yes')
+            {
+                if ($consultation->requested_tests->count() > 0) {
+                    if ($this->atleastOnePaidTest($consultation)
+                        && !$this->allWithResults($consultation)) {
+                        array_push($consultations, $consultation);
+                    }
+                }
+            }
+        }
+
+        return view('doctor.consultations', ['consultations' => $consultations]);
+    }
+    public function readyLabList()
+    {
+        $list = Consultation::where(['status' => 'pending'])->oldest()->get();
+        $consultations = [];
+        foreach($list as $consultation)
+        {
+            if ($consultation->consultation_invoice->paid == 'yes') // Consultation fee is paid
+            {
+                if ($consultation->requested_tests->count() > 0) {
+                    if ($this->atleastOnePaidTest($consultation)
+                        && $this->allWithResults($consultation)) {
+                        array_push($consultations, $consultation);
+                    }
+                }
+            }
+        }
+
+        return view('doctor.consultations', ['consultations' => $consultations]);
+    }
+
+    private function allWithResults($consultation)
+    {
+        $tests = $consultation->requested_tests;
+
+        foreach ($tests as $test)
+        {
+            if ($this->hasPaidInvoice($test))
+            {
+                if (!$test->test_result)
+                    return false;
+            }
+        }
+
+        return true;
+    }
+    /**
+     * Check if has one paid test
+     * @param $consultation
+     * @return bool
+     */
+    private function atleastOnePaidTest($consultation)
+    {
+        $rqTests = $consultation->requested_tests;
+        $onePaid = false;
+
+        foreach ($rqTests as $rqTest)
+        {
+            if ($this->hasPaidInvoice($rqTest))
+                $onePaid = true;
+        }
+
+        return $onePaid;
+    }
+
+    /**
+     * Check if test has Invoice and if paid
+     * @param $rqTest
+     * @return bool
+     */
+    private function hasPaidInvoice($rqTest)
+    {
+        if (!$rqTest->test_invoice)
+            return false;
+        if ($rqTest->test_invoice->paid == 'yes')
+            return true;
+    }
+
     public function pendingDetails(Request $request, Consultation $consultation)
     {
         return view('doctor.consultation_open', ['consultation' => $consultation]);
@@ -135,7 +233,7 @@ class DoctorController extends Controller
         }
         // Check if already prescribed
         $prescribed = Prescription::where([
-                'consultation_id' => $consultation->id, 
+                'consultation_id' => $consultation->id,
                 'drug_id' => $data['drug']
             ])->first();
         if ($prescribed)
