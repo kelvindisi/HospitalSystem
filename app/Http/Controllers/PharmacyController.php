@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\RequestedTest;
 use Illuminate\Http\Request;
 use App\Consultation;
 use App\Prescription;
@@ -11,14 +12,15 @@ class PharmacyController extends Controller
 {
     public function index()
     {
-        return view('pharmacy.dashboard');
+        $context = ['pending' => RequestedTest::where('doable', 'pending')->count()];
+        return view('pharmacy.dashboard', $context);
     }
 
     public function pending()
     {
         $consultations = $this->consultationsWithPrescriptions();
         $pending = $this->getByAvailability($consultations, 'pending');
-        
+
         return view('pharmacy.prescription_list')->with(['consultations' => $pending]);
     }
 
@@ -59,7 +61,7 @@ class PharmacyController extends Controller
     public function unpaid()
     {
         $un_paid  = [];
-        
+
         $add = true;
         $consultations = $this->consultationsWithPrescriptions();
 
@@ -82,14 +84,14 @@ class PharmacyController extends Controller
                     $add = true;
             }
         }
-        
+
         return view('pharmacy.prescription_list')->with(['consultations' => $un_paid]);
     }
-    
+
     public function paid()
     {
         $paid  = [];
-        
+
         $add = true;
         $consultation_ids = [];
         $consultations = $this->consultationsWithPrescriptions();
@@ -120,7 +122,7 @@ class PharmacyController extends Controller
                     $add = true;
             }
         }
-        
+
         return view('pharmacy.prescription_processed_list')->with(['consultations' => $paid]);
     }
 
@@ -224,7 +226,7 @@ class PharmacyController extends Controller
         else
             return false;
     }
-    
+
     public static function consultationsWithPrescriptions()
     {
         $withPrescriptions = [];
@@ -237,7 +239,7 @@ class PharmacyController extends Controller
 
         return $withPrescriptions;
     }
-    
+
     public static function prescriptionHasInvoice($prescription)
     {
         if ($prescription->prescription_invoice)
@@ -247,13 +249,13 @@ class PharmacyController extends Controller
             return false;
         }
     }
-    
+
     private function createPrescriptionInvoice($prescription)
     {
         if ($prescription->prescription_invoice)
             return false;
         $amount = $prescription->drug->price;
-        
+
         $data = [
             'amount' => $amount,
             'prescription_id' => $prescription->id
@@ -276,5 +278,5 @@ class PharmacyController extends Controller
         }
         return false;
     }
-    
+
 }

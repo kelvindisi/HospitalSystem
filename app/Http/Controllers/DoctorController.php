@@ -14,7 +14,8 @@ class DoctorController extends Controller
 {
     public function index()
     {
-        return view('doctor.dashboard');
+        $pendingCount = Consultation::where('status', 'pending')->count();
+        return view('doctor.dashboard', ['pendingCount' => $pendingCount]);
     }
 
     public function pendingList()

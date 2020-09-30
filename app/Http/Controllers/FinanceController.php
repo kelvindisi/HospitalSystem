@@ -6,14 +6,21 @@ use App\TestInvoice;
 use Illuminate\Http\Request;
 use App\ConsultationInvoice;
 use App\Consultation;
-use App\Http\Controllers\PharmacyController;
 use App\PrescriptionInvoice;
 
 class FinanceController extends Controller
 {
     public function index()
     {
-        return view('finance.dashboard');
+        $consultationInv = ConsultationInvoice::where('paid', 'pending')->count();
+        $testInvoice = TestInvoice::where('paid', 'pending')->count();
+        $prescriptionInvoice = PrescriptionInvoice::where('paid', 'pending')->count();
+        $context = [
+            'consultationInv' => $consultationInv,
+            'testInv'=> $testInvoice,
+            'prescriptionInv' => $prescriptionInvoice
+        ];
+        return view('finance.dashboard', $context);
     }
     public function ConsultationInvoices()
     {
